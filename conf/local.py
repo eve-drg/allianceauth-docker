@@ -11,9 +11,36 @@ DEBUG = False
 # Add any additional apps to this list. Pre-Populated with some Apps
 INSTALLED_APPS += [
 'allianceauth.services.modules.discord',
-'allianceauth.services.modules.mumble',
+'allianceauth.services.modules.teamspeak3',
 ]
+# Teamspeak3 Configuration
+TEAMSPEAK3_SERVER_IP = '127.0.0.1'
+TEAMSPEAK3_SERVER_PORT = 10011
+TEAMSPEAK3_SERVERQUERY_USER = 'serveradmin'
+TEAMSPEAK3_SERVERQUERY_PASSWORD = ''
+TEAMSPEAK3_VIRTUAL_SERVER = 1
+TEAMSPEAK3_PUBLIC_URL = ''
 
+CELERYBEAT_SCHEDULE['run_ts3_group_update'] = {
+    'task': 'allianceauth.services.modules.teamspeak3.tasks.run_ts3_group_update',
+    'schedule': crontab(minute='*/30'),
+}
+# Discourse Configuration
+DISCOURSE_URL = ''
+DISCOURSE_API_USERNAME = ''
+DISCOURSE_API_KEY = ''
+DISCOURSE_SSO_SECRET = ''
+
+# SMF Configuration
+SMF_URL = ''
+DATABASES['smf'] = {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'alliance_smf',
+    'USER': 'allianceserver-smf',
+    'PASSWORD': 'password',
+    'HOST': '127.0.0.1',
+    'PORT': '3306',
+}
 #### ADD YOUR OWN LOCAL DATABASE DETAILS HERE
 DATABASES['default'] = {
     'ENGINE': 'django.db.backends.mysql',
